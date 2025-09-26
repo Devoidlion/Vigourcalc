@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vigour</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #2F2F2F 0%, #404040 100%);
+            color: #E0E0E0;
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            min-height: 100vh;
+            max-width: 1500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #left {
+            width: 25%;
+            padding: 10px;
+            background: rgba(201, 166, 63, 0.1);
+            border-right: 1px solid #C9A63F;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+        #right {
+            width: 75%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            padding: 15px;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+        h1 {
+            color: #C9A63F;
+            text-align: center;
+            font-size: 2.2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            margin-bottom: 5px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        h2 {
+            color: #D4A017;
+            text-align: center;
+            font-size: 1.5em;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            margin-top: 0;
+            font-style: italic;
+            font-weight: normal;
+        }
+        h2::after {
+            content: '';
+            display: block;
+            width: 50%;
+            height: 2px;
+            background: #C9A63F;
+            margin: 5px auto 15px;
+        }
+        h3 {
+            color: #C9A63F;
+            font-size: 1.2em;
+            border-bottom: 1px solid #C9A63F;
+            padding-bottom: 4px;
+            margin-top: 8px;
+        }
+        section {
+            margin-bottom: 8px;
+            padding: 8px;
+            background: rgba(40, 40, 40, 0.9);
+            border-radius: 4px;
+        }
+        label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.85em;
+        }
+        input[type="number"] {
+            width: 85px;
+            padding: 3px;
+            border: 1px solid #555;
+            border-radius: 3px;
+            background: #333;
+            color: #E0E0E0;
+            font-size: 0.85em;
+        }
+        .tier {
+            margin-bottom: 6px;
+        }
+        #points-used {
+            color: #C9A63F;
+            font-weight: bold;
+            text-align: right;
+            margin-bottom: 6px;
+            font-size: 0.85em;
+        }
+        .ability-card {
+            border: 1px solid #C9A63F;
+            background: linear-gradient(135deg, #333 0%, #2A2A2A 80%);
+            padding: 10px;
+            width: 280px;
+            border-radius: 6px;
+            box-shadow: 0 3px 8px rgba(201, 166, 63, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .ability-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 12px rgba(201, 166, 63, 0.4);
+        }
+        .ability-name {
+            color: #C9A63F;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .ability-desc {
+            color: #D0D0D0;
+            font-size: 0.85em;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+        .ability-value {
+            color: #E0E0E0;
+            font-size: 1.05em;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .ability-extra {
+            color: #A0A0A0;
+            font-size: 0.75em;
+            margin-top: 5px;
+            line-height: 1.2;
+        }
+        details {
+            margin-top: 6px;
+            color: #D0D0D0;
+            font-size: 0.7em;
+        }
+        summary {
+            cursor: pointer;
+            color: #C9A63F;
+        }
+        .sources {
+            margin-top: 10px;
+            padding: 5px;
+            background: rgba(40, 40, 40, 0.9);
+            border-radius: 4px;
+            font-size: 0.7em;
+            color: #C9A63F;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="left">
+        <h1>Vigour</h1>
+        <h2>The Lightshaper</h2>
+        <section id="stats">
+            <h3>Stats</h3>
+            <label>Health: <input type="number" id="health" value="50624"></label>
+            <label>Mana: <input type="number" id="mana" value="1440"></label>
+            <label>Armor: <input type="number" id="armor" value="1159"></label>
+            <label>Physical DR %: <input type="number" id="physical_dr" value="7.98"></label>
+            <label>Magical DR %: <input type="number" id="magical_dr" value="0"></label>
+            <label>Stamina: <input type="number" id="stamina" value="1000"></label>
+            <label>Intellect: <input type="number" id="intellect" value="1000"></label>
+            <label>Crit %: <input type="number" id="crit" value="5"></label>
+            <label>Expertise %: <input type="number" id="expertise" value="0"></label>
+            <label>Haste %: <input type="number" id="haste" value="0"></label>
+            <label>Spirit %: <input type="number" id="spirit" value="0"></label>
+            <label>Dodge %: <input type="number" id="dodge" value="5"></label>
+            <label>Move Speed: <input type="number" id="move_speed" value="100"></label>
+        </section>
+        <section id="talents">
+            <h3>Talents</h3>
+            <div id="points-used">Points Used: 0/13</div>
+            <div class="tier">
+                <h4>Tier I (Cost 2 pts)</h4>
+                <label><input type="checkbox" class="talent" data-cost="2" value="master_of_triage"> Master of Triage</label>
+                <label><input type="checkbox" class="talent" data-cost="2" value="enduring_light"> Enduring Light</label>
+                <label><input type="checkbox" class="talent" data-cost="2" value="epiphany"> Epiphany</label>
+            </div>
+            <div class="tier">
+                <h4>Tier II (Cost 1 pt)</h4>
+                <label><input type="checkbox" class="talent" data-cost="1" value="alacritous_healing"> Alacritous Healing</label>
+                <label><input type="checkbox" class="talent" data-cost="1" value="well_of_knowledge"> Well of Knowledge</label>
+                <label><input type="checkbox" class="talent" data-cost="1" value="runic_revelations"> Runic Revelations</label>
+            </div>
+            <div class="tier">
+                <h4>Tier III (Cost 2 pts)</h4>
+                <label><input type="checkbox" class="talent" data-cost="2" value="sacred_barrier"> Sacred Barrier</label>
+                <label><input type="checkbox" class="talent" data-cost="2" value="ruptured_soul"> Ruptured Soul</label>
+                <label><input type="checkbox" class="talent" data-cost="2" value="meticulous_runesmith"> Meticulous Runesmith</label>
+            </div>
+            <div class="tier">
+                <h4>Tier IV (Cost 1 pt)</h4>
+                <label><input type="checkbox" class="talent" data-cost="1" value="bracing_light"> Bracing Light</label>
+                <label><input type="checkbox" class="talent" data-cost="1" value="magic_ward"> Magic Ward</label>
+                <label><input type="checkbox" class="talent" data-cost="1" value="spirited_fortitude"> Spirited Fortitude</label>
+            </div>
+            <div class="tier">
+                <h4>Tier V (Cost 3 pts)</h4>
+                <label><input type="checkbox" class="talent" data-cost="3" value="radiant_soul"> Radiant Soul</label>
+                <label><input type="checkbox" class="talent" data-cost="3" value="ascending_avatar"> Ascending Avatar</label>
+                <label><input type="checkbox" class="talent" data-cost="3" value="grand_design"> Grand Design</label>
+            </div>
+            <div class="tier">
+                <h4>Tier VI (Cost 1 pt)</h4>
+                <label><input type="checkbox" class="talent" data-cost="1" value="dawnbreakers_legacy"> Dawnbreaker's Legacy</label>
+                <label><input type="checkbox" class="talent" data-cost="1" value="expansive_mind"> Expansive Mind</label>
+                <label><input type="checkbox" class="talent" data-cost="1" value="beacon_in_the_dark"> Beacon in the Dark</label>
+            </div>
+        </section>
+        <div class="sources">Sources: FellowsGuide / FellowTools / Icy-Veins community pages. Adjust base numbers to match your client.</div>
+    </div>
+    <div id="right"></div>
+
+    <script>
+        const abilityData = [
+            { name: 'Circle of Light', desc: 'Place a Circle of Light on the ground, instantly healing all allies within its radius for [X].', mana: '128 Mana', cd: '15s', scalingHeal: 5.6, scalingDmg: 0, runeGen: 0, overcharge: false, baseDuration: 0 },
+            { name: 'Dawnbreaker Orb', desc: 'Conjure an orb of light that slowly travels forward, healing all allies it touches for [X] Intellect and damaging enemies for [X] Intellect. Each ally and enemy touched generates 10% of a Radiant Rune.', mana: 'Mana', cd: '10s', scalingHeal: 3.95, scalingDmg: 1.72, runeGen: 0.10, overcharge: false, baseDuration: 0 },
+            { name: 'Dawnflare', desc: 'Deals [X] Intellect damage to target enemy. Each cast generates 20% of a Radiant Rune.', mana: 'Mana', cd: '1.5s Cast', scalingHeal: 0, scalingDmg: 1.6, runeGen: 0.20, overcharge: false, baseDuration: 0 },
+            { name: 'Greater Heal', desc: 'Heal target ally for [X].', mana: '88 Mana', cd: '2.0s Cast', scalingHeal: 15.37, scalingDmg: 0, runeGen: 0, overcharge: false, baseDuration: 0 },
+            { name: 'Levitate', desc: 'Your movement speed is increased by 50% for 6 seconds. You take 20% reduced Area of Effect damage while levitating. Can be used during Global Cooldown and while Casting or Channeling.', mana: '18 Mana', cd: '60s (2 charges)', scalingHeal: 0, scalingDmg: 0, runeGen: 0, overcharge: false, baseDuration: 6 },
+            { name: 'Lightshaper\'s Ward', desc: 'Target ally takes 20% reduced damage for 12 seconds. Can be used during Global Cooldown.', mana: '63 Mana', cd: '60s', scalingHeal: 0, scalingDmg: 0, runeGen: 0, overcharge: false, baseDuration: 12 },
+            { name: 'Luminous Barrier', desc: 'Apply a shield to target ally that absorbs up to [X] Intellect damage while it persists. The shield lasts for 8 sec.', mana: '1 Rune', cd: 'GCD', scalingHeal: 19.98, scalingDmg: 0, runeGen: 0, overcharge: true, baseDuration: 8 },
+            { name: 'Radiant Blast', desc: 'Within a cone in front of you, allies are healed for [X] Intellect and enemies take [X] Intellect damage. When dealing damage, generates 30% of a Radiant Rune.', mana: '47 Mana', cd: '10s', scalingHeal: 2.61, scalingDmg: 1.27, runeGen: 0.30, overcharge: false, baseDuration: 0 },
+            { name: 'Remove Magic', desc: 'Remove all Harmful Magic Effects from target ally.', mana: '82 Mana', cd: '6s', scalingHeal: 0, scalingDmg: 0, runeGen: 0, overcharge: false, baseDuration: 0 },
+            { name: 'Rune of Renewal', desc: 'Instantly heal target ally for [X] and apply Rune of Renewal for 30 seconds, causing all direct healing effects on that ally to echo for an additional 25% of the initial heal\'s value. Initial heal increased by 200% when cast on a target with Rune of Renewal active. Bonus healing generates Radiant Rune power relative to the heal value.', mana: '1 Rune', cd: 'GCD', scalingHeal: 4.17, scalingDmg: 0, runeGen: 0, overcharge: true, baseDuration: 30 },
+            { name: 'Runic Proliferation', desc: 'Instantly generate 3 Radiant Runes. For the next 8 seconds, any Rune Abilities you cast are empowered, increasing their effectiveness by 20%. Can be used during Global Cooldown.', mana: '96 Mana', cd: '60s', scalingHeal: 0, scalingDmg: 0, runeGen: 3, overcharge: false, baseDuration: 8 },
+            { name: 'Soulbrand', desc: 'Apply a searing rune to target enemy, dealing [X] magic damage every [X] seconds for 24 seconds. When applied to an enemy with the effect, triggers Soulbrand: Remnant, instantly dealing additional [X] damage. Generates 30% of a Radiant Rune over its duration.', mana: '1 Rune', cd: 'GCD', scalingHeal: 0, scalingDmg: 1.29, runeGen: 0.30, overcharge: true, baseDuration: 24 },
+            { name: 'Throw Book', desc: 'Punish a target, stunning them for 2 sec. Can be used during Global Cooldown.', mana: 'Not specified', cd: 'Not specified', scalingHeal: 0, scalingDmg: 0, runeGen: 0, overcharge: false, baseDuration: 2 },
+            { name: 'Avatar of Light', desc: 'Instantly heal all allies within a large radius for [X] and enter an enlightened state for 9 sec, enhancing abilities.', mana: '100 Spirit', cd: 'Spirit CD', scalingHeal: 3.22, scalingDmg: 0, runeGen: 0, overcharge: false, baseDuration: 9 }
+        ];
+
+        function applyDR(raw) {
+            if (raw <= 0) return 0;
+            let eff = 0;
+            let brackets = [10, 5, 5, 5];
+            let multipliers = [1, 0.95, 0.9, 0.85];
+            multipliers.forEach((mul, i) => {
+                if (raw > 0) {
+                    let take = Math.min(raw, brackets[i] || raw);
+                    eff += take * mul;
+                    raw -= take;
+                }
+            });
+            eff += raw * 0.8;
+            return eff;
+        }
+
+        function getStats() {
+            return {
+                intellect: parseFloat(document.getElementById('intellect').value) || 0,
+                critRaw: parseFloat(document.getElementById('crit').value) || 0,
+                expertiseRaw: parseFloat(document.getElementById('expertise').value) || 0,
+                hasteRaw: parseFloat(document.getElementById('haste').value) || 0,
+                spiritRaw: parseFloat(document.getElementById('spirit').value) || 0,
+                health: parseFloat(document.getElementById('health').value) || 0,
+                talents: Array.from(document.querySelectorAll('.talent:checked')).map(cb => cb.value)
+            };
+        }
+
+        function updatePoints() {
+            let totalPoints = 0;
+            const selectedTalents = document.querySelectorAll('.talent:checked');
+            selectedTalents.forEach(talent => {
+                totalPoints += parseInt(talent.getAttribute('data-cost')) || 0;
+            });
+            const maxPoints = 13;
+            if (totalPoints > maxPoints) {
+                alert('Maximum 13 points exceeded! Please deselect a talent.');
+                selectedTalents[selectedTalents.length - 1].checked = false;
+                updatePoints();
+            } else {
+                document.getElementById('points-used').textContent = `Points Used: ${totalPoints}/13`;
+            }
+        }
+
+        function calculateAbility(ability, stats) {
+            const { intellect, critRaw, expertiseRaw, hasteRaw, talents, health } = stats;
+            const vers = applyDR(expertiseRaw) / 100 + 1;
+            let crit = applyDR(critRaw);
+            const haste = applyDR(hasteRaw) / 100 + 1;
+
+            let baseHeal = ability.scalingHeal * intellect * vers;
+            let baseDmg = ability.scalingDmg * intellect * vers;
+            let baseShield = 0;
+            let duration = ability.baseDuration;
+
+            let extra = `Mana Cost: ${ability.mana} | Cooldown: ${ability.cd} | Rune Gen: ${ability.runeGen * 100}%`;
+
+            // Talent: Master of Triage - Adds 30% efficiency heal to Greater Heal
+            if (talents.includes('master_of_triage') && ability.name === 'Greater Heal') {
+                const triageHeal = baseHeal * 0.30;
+                extra += ` | Triage Heal: ${triageHeal.toFixed(1)}`;
+            }
+
+            // Talent: Enduring Light - Increases Circle of Light healing by 20%
+            if (talents.includes('enduring_light') && ability.name === 'Circle of Light') {
+                baseHeal *= 1.20; // Approximate 20% boost (simplified, as missing health dependency is complex)
+            }
+
+            // Talent: Epiphany - Adds 10% proc chance to Dawnflare, Soulbrand, Radiant Blast
+            if (talents.includes('epiphany') && (ability.name === 'Dawnflare' || ability.name === 'Soulbrand' || ability.name === 'Radiant Blast')) {
+                extra += ' | Epiphany proc chance: 10%';
+            }
+
+            // Talent: Alacritous Healing - Adds 20% crit chance for Greater Heal, adjusted for DR
+            if (talents.includes('alacritous_healing') && ability.name === 'Greater Heal') {
+                crit += 20; // Base 20% increase
+                crit = applyDR(crit); // Apply diminishing returns
+                extra += ` | Crit Chance: ${crit.toFixed(1)}%`;
+            }
+
+            // Talent: Runic Revelations - Increases duration of HoTs/DoTs by 25%
+            if (talents.includes('runic_revelations') && ability.baseDuration > 0) {
+                const modifiedDuration = duration * 1.25;
+                extra += ` | Duration: ${duration}s -> ${modifiedDuration.toFixed(1)}s`;
+            }
+
+            // Talent: Sacred Barrier - Adds 10% DR to Luminous Barrier
+            if (talents.includes('sacred_barrier') && ability.name === 'Luminous Barrier') {
+                extra += ' | 10% DR';
+            }
+
+            // Talent: Radiant Soul - Increases healing/damage by 25% for specific abilities
+            if (talents.includes('radiant_soul') && (ability.name === 'Radiant Blast' || ability.name === 'Soulbrand' || ability.name === 'Rune of Renewal' || ability.name === 'Luminous Barrier' || ability.name === 'Circle of Light' || ability.name === 'Avatar of Light')) {
+                baseHeal *= 1.25;
+                baseDmg *= 1.25;
+            }
+
+            // Talent: Dawnbreaker's Legacy - Adds 25% crit chance to Dawnbreaker Orb
+            if (talents.includes('dawnbreakers_legacy') && ability.name === 'Dawnbreaker Orb') {
+                crit += 25;
+                crit = applyDR(crit); // Apply diminishing returns
+                extra += ` | Crit Chance: ${crit.toFixed(1)}%`;
+            }
+
+            // Talent: Beacon in the Dark - 15% proc chance on Dawnflare/Radiant Blast, +50% of base crit with DR on next Radiant Blast
+            if (talents.includes('beacon_in_the_dark')) {
+                if (ability.name === 'Dawnflare' || ability.name === 'Radiant Blast') {
+                    extra += ' | Beacon proc chance: 15%';
+                }
+                if (ability.name === 'Radiant Blast') {
+                    const beaconCritIncrease = critRaw * 0.50; // 50% of base crit
+                    let totalCrit = critRaw + beaconCritIncrease; // Base crit + 50% increase
+                    totalCrit = applyDR(totalCrit); // Apply diminishing returns
+                    extra += ` | Next cast Crit Chance: ${totalCrit.toFixed(1)}% | Cooldown reset on proc`;
+                }
+            }
+
+            if (ability.overcharge && talents.includes('grand_design')) {
+                const overchargeCheckbox = document.querySelector(`.overcharge[data-ability="${ability.name.replace(/ /g, '-')}"]`);
+                if (overchargeCheckbox && overchargeCheckbox.checked) {
+                    baseHeal *= 0.76;
+                    baseDmg *= 0.76;
+                    extra += ' | Overcharged (76% power, up to 4 targets)';
+                }
+            }
+
+            if (ability.name === 'Luminous Barrier') {
+                baseShield = baseHeal;
+                baseHeal = 0;
+            }
+
+            let valueText = '';
+            if (baseHeal > 0) valueText += `Healing Base: ${baseHeal.toFixed(1)} `;
+            if (baseDmg > 0) valueText += `Damage Base: ${baseDmg.toFixed(1)} `;
+            if (baseShield > 0) valueText += `Shield Base: ${baseShield.toFixed(1)}`;
+
+            return { valueText, extra };
+        }
+
+        function renderAbilities() {
+            const right = document.getElementById('right');
+            right.innerHTML = '';
+            abilityData.forEach(ability => {
+                const card = document.createElement('div');
+                card.className = 'ability-card';
+                card.id = `card-${ability.name.replace(/ /g, '-')}`;
+                let overchargeHtml = '';
+                if (ability.overcharge) {
+                    overchargeHtml = `<label><input type="checkbox" class="overcharge" data-ability="${ability.name.replace(/ /g, '-')}"> Simulate Overcharge</label>`;
+                }
+                card.innerHTML = `
+                    <div class="ability-name">${ability.name}</div>
+                    <div class="ability-desc">${ability.desc.replace('[X]', 'scaling')}</div>
+                    <div class="ability-value"></div>
+                    <div class="ability-extra"></div>
+                    ${overchargeHtml}
+                    <details>
+                        <summary>Show Formula</summary>
+                        <div>Base scaling applied with Intellect, Crit, Expertise, Haste, and talents.</div>
+                    </details>
+                `;
+                right.appendChild(card);
+            });
+            updateAbilities();
+        }
+
+        function updateAbilities() {
+            const stats = getStats();
+            abilityData.forEach(ability => {
+                const { valueText, extra } = calculateAbility(ability, stats);
+                const card = document.getElementById(`card-${ability.name.replace(/ /g, '-')}`);
+                if (card) {
+                    card.querySelector('.ability-value').textContent = valueText;
+                    card.querySelector('.ability-extra').textContent = extra;
+                }
+            });
+        }
+
+        function init() {
+            renderAbilities();
+            document.querySelectorAll('input[type="number"]').forEach(input => {
+                input.addEventListener('input', updateAbilities);
+            });
+            document.querySelectorAll('.talent').forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    updatePoints();
+                    updateAbilities();
+                });
+            });
+            document.addEventListener('change', (e) => {
+                if (e.target.classList.contains('overcharge')) {
+                    updateAbilities();
+                }
+            });
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
